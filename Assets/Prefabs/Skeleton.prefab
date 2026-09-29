@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 30
-  destroyOnDeath: 0
+  destroyOnDeath: 1
 --- !u!195 &7079289160739278689
 NavMeshAgent:
   m_ObjectHideFlags: 0
