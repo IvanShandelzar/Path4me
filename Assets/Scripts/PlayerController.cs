@@ -28,10 +28,27 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        HandleCursor();
         HandleLook();
         HandleMovement();
     }
 
+    void HandleCursor()
+    {
+    // Esc — разблокировать курсор (для выхода в редакторе и для будущей паузы)
+    if (Input.GetKeyDown(KeyCode.Escape))
+        {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        }
+
+    // Клик по окну — снова залочить
+    if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked)
+        {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        }   
+    }
     void HandleLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
