@@ -26,9 +26,13 @@ public class PlayerCombat : MonoBehaviour
         if (Time.time - lastAttackTime < attackCooldown) return;
         lastAttackTime = Time.time;
 
-        // Лёгкая тряска при самом взмахе (ещё без попадания)
+        // Лёгкая тряска при самом взмахе
         if (CameraShake.Instance != null)
-         CameraShake.Instance.Shake(0.08f, 0.04f);
+            CameraShake.Instance.Shake(0.08f, 0.04f);
+
+        // Звук взмаха
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySwing();
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, attackRange, damageableLayer))
@@ -38,18 +42,15 @@ public class PlayerCombat : MonoBehaviour
             {
                 target.TakeDamage(damage, gameObject);
 
-                Debug.Log($"HitStop.Instance = {(HitStop.Instance != null ? "OK" : "NULL")}");
-                Debug.Log($"CameraShake.Instance = {(CameraShake.Instance != null ? "OK" : "NULL")}");
-
                 if (HitStop.Instance != null)
-                    HitStop.Instance.Stop(Random.Range(0.06f, 0.10f), 0.05f);
+                    HitStop.Instance.Stop(0.08f, 0.05f);
 
                 if (CameraShake.Instance != null)
-                    CameraShake.Instance.Shake(
-                        Random.Range(0.15f, 0.22f),
-                        Random.Range(0.10f, 0.15f));
+                    CameraShake.Instance.Shake(0.18f, 0.12f);
 
-                Debug.Log($"Попадание в {hit.collider.name} на {damage} урона");
+                // Звук попадания
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayHit();
             }
         }
     }
